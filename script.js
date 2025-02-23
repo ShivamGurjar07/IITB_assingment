@@ -34,25 +34,21 @@ renderTables() {
   Object.keys(this.animalData).forEach((category) => {
     const tableDiv = document.createElement("div");
     tableDiv.className = "animal-container";
-
     const tableTitle = document.createElement("h2");
     tableTitle.textContent = `Category: ${category}`;
     tableDiv.appendChild(tableTitle);
-
     const animalList = document.createElement("div");
     animalList.className = "animal-list";
 
     this.animalData[category].forEach((animal, index) => {
       const animalCard = document.createElement("div");
       animalCard.className = "animal-card";
-
       const img = document.createElement("img");
       img.src = animal.image;
       img.alt = animal.name;
 
       const details = document.createElement("div");
       details.className = "animal-details";
-
       let nameClass = "";
       if (category === "Big Fish") {
         nameClass = "big-fish-name";
@@ -66,38 +62,30 @@ renderTables() {
         <p><strong>Size:</strong> ${animal.size}</p>
         <p><strong>Location:</strong> ${animal.location}</p>
       `;
-
       const actions = document.createElement("div");
       actions.className = "actions";
-
       const editBtn = document.createElement("button");
       editBtn.textContent = "Edit";
       editBtn.className = "btn";
       editBtn.onclick = () => this.editAnimal(category, index);
-
       const deleteBtn = document.createElement("button");
       deleteBtn.textContent = "Delete";
       deleteBtn.className = "btn-delete";
       deleteBtn.onclick = () => this.deleteAnimal(category, index);
-
       actions.appendChild(editBtn);
       actions.appendChild(deleteBtn);
-
       animalCard.appendChild(img);
       animalCard.appendChild(details);
       animalCard.appendChild(actions);
       animalList.appendChild(animalCard);
     });
-
     tableDiv.appendChild(animalList);
     container.appendChild(tableDiv);
   });
 }
-
 sortTable() {
   const sortBy = document.getElementById("sort-by").value;
   const sortedData = {};
-
   Object.keys(this.animalData).forEach((category) => {
     sortedData[category] = [...this.animalData[category]];
     if (sortBy === "name") {
@@ -108,11 +96,9 @@ sortTable() {
       sortedData[category].sort((a, b) => a.location.localeCompare(b.location));
     }
   });
-
   Object.assign(this.animalData, sortedData);
   this.renderTables();
 }
-
 editAnimal(category, index) {
   const animal = this.animalData[category][index];
   document.getElementById("category").value = category;
@@ -123,15 +109,12 @@ editAnimal(category, index) {
   document.getElementById("image").value = animal.image;
   document.getElementById("edit-index").value = index;
 }
-
 deleteAnimal(category, index) {
   this.animalData[category].splice(index, 1);
   this.renderTables();
 }
-
 addEventListeners() {
   document.getElementById("sort-by").addEventListener("change", () => this.sortTable());
-
   document.getElementById("animal-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const index = document.getElementById("edit-index").value;
@@ -141,9 +124,7 @@ addEventListeners() {
     const size = document.getElementById("size").value;
     const location = document.getElementById("location").value;
     const image = document.getElementById("image").value;
-
     const animal = { species, name, size, location, image };
-
     if (index) {
       this.animalData[category][index] = animal;
     } else {
@@ -152,7 +133,6 @@ addEventListeners() {
       }
       this.animalData[category].push(animal);
     }
-
     this.renderTables();
     e.target.reset();
     document.getElementById("edit-index").value = "";
